@@ -1,6 +1,6 @@
 Some UI customizations for Gaffer, particularly on Windows. New orange and black look and generally larger text, plus some custom icons.
 
-To install, just merge the two folders in this repo into your Gaffer folder.
+To install, merge the two folders in this repo into your Gaffer folder.
 
 There are two Windows-specific (I assume) fonts in __StyleSheet.py_, assigned to `monospaceFontFamily` and `mainFontFamily` (lines 152-153). The theme should work on just fine on Linux if you change those to some appropriate fonts.
 
