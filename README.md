@@ -6,6 +6,8 @@ There are two Windows-specific (I assume) fonts in __StyleSheet.py_, assigned to
 
 There's a _gaffer.ico_ icon in the _graphics_ folder for use in Start Menu/Desktop shortcuts.
 
+Enjoy!
+
 ![gfr01](https://github.com/user-attachments/assets/ba888452-de9b-4649-8dd4-b1fc1af373a8)
 
 ![gfr02](https://github.com/user-attachments/assets/ea317d8f-d42c-47ce-9cd3-b66a10d807cf)
