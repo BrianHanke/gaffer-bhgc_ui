@@ -69,6 +69,12 @@ _styleColors = {
 	#
 	# The 'alt' suffixed colors are for use in UI elements such as table views
 	# that require subtle variation of the base background color.
+	#
+	## \todo This is getting a bit out of hand. We now have almost 30 variables
+	# for shades of grey alone, and they are not being used consistently. It
+	# would be great if we could reduce their number and name them according to
+	# purpose rather than appearance - e.g. `valueEditorBackgroundReadOnly` rather than
+	# `tintLighterSubtle`.
 
 	"backgroundDarkest" : (0, 0, 0),
 
@@ -121,6 +127,12 @@ _styleColors = {
 	# variation. This should be in preference to using $background* colors
 	# unless there are compositing issues or other overriding reasons as the
 	# control will not be portable across different backgrounds.
+	#
+	## \todo There are enough compositing issues that this isn't a viable
+	# approach, and key widgets (QLineEdit, QPlainTextEdit for two) have never
+	# used the tint colours. It's also not clear that it would be a good thing
+	# if they did - we use subtle tonal variations to communicate editability
+	# and we don't want that to be confused with the nesting level.
 
 	"tintLighterSubtle" :   ( 255, 255, 255, 10 ),
 	"tintLighter" :         ( 255, 255, 255, 20 ),
@@ -278,6 +290,11 @@ _styleSheet = string.Template(
 		padding: 5px 8px 5px 8px;
 	}
 
+	QMenuBar QToolButton#qt_menubar_ext_button {
+		qproperty-icon: url(:/pathListingList.png);
+		qproperty-iconSize: 10px 10px;
+	}
+
 	#gafferMenuBarWidgetContainer {
 		background-color: $backgroundDarkest;
 	}
@@ -429,7 +446,7 @@ _styleSheet = string.Template(
 	}
 
 	#gafferSearchField {
-		background-image: url(:/search.png);
+		background-image: url(:/searchFieldBackground.png);
 		background-repeat:no-repeat;
 		background-position: left center;
 		padding-left: 20px;
@@ -439,11 +456,11 @@ _styleSheet = string.Template(
 		margin-right: 4px;
 	}
 
-	QWidget[gafferClass="GafferUI.SplineWidget"] {
+	QWidget[gafferClass="GafferUI.RampWidget"] {
 		border: 1px solid $backgroundDark;
 	}
 
-	QWidget[gafferClass="GafferUI.SplineWidget"][gafferHighlighted="true"] {
+	QWidget[gafferClass="GafferUI.RampWidget"][gafferHighlighted="true"] {
 		border: 1px solid $brightColor;
 	}
 
@@ -511,7 +528,9 @@ _styleSheet = string.Template(
 		text-align: left;
 	}
 
-	*[gafferPlugValueWidget="true"] QPushButton[gafferClass="GafferUI.MenuButton"][gafferError="true"] {
+	/* Todo : I have no idea what `gafferPlugValueWidget` is for - I'm fairly sure it can be removed. */
+	*[gafferPlugValueWidget="true"] QPushButton[gafferClass="GafferUI.MenuButton"][gafferError="true"],
+	*[gafferPlugValueWidget="true"] QPushButton[gafferClass="GafferUI.MenuButton"][gafferError="true"]:disabled {
 		background-color : $errorColor;
 	}
 
@@ -536,7 +555,7 @@ _styleSheet = string.Template(
 		background-color: none;
 	}
 
-	QPushButton:disabled, QComboBox:disabled, QLabel::disabled {
+	QPushButton:disabled, QComboBox:disabled, QLabel::disabled, QCheckBox::disabled {
 		color: $tintLighterStrong;
 	}
 
@@ -1303,6 +1322,7 @@ _styleSheet = string.Template(
 	*[gafferClass="GafferSceneUI.AttributeEditor"] QTreeView::item,
 	*[gafferClass="GafferSceneUI.SceneInspector"] QTreeView::item,
 	*[gafferClass="GafferSceneUI._HistoryWindow"] QTreeView::item,
+	*[gafferClass="GafferSceneUI.LightLinkingEditor"] QTreeView::item,
 	*[gafferClass="GafferSceneUI.SetEditor"] QTreeView::item {
 		height: 20px;
 		padding-top: 0px;
@@ -1577,7 +1597,7 @@ _styleSheet = string.Template(
 	*[gafferClass="GafferSceneUI.InstancerUI._VariationsPlugValueWidget"] #gafferVariationCount
 	{
 		font-family: $monospaceFontFamily;
-		font-weight:normal;
+		font-weight: normal;
 		font-size: 13px;
 		background: $background;
 		border: 1px solid $background;
@@ -1770,6 +1790,33 @@ _styleSheet = string.Template(
 
 	QFrame[gafferClass="GafferImageUI.ImageViewUI._CompareImageWidget"][gafferHighlighted="true"] {
 		border: 1px solid $brightColor;
+	}
+
+	QWidget[gafferClass="GafferUI.BreadCrumbsWidget"] {
+		border: 1px solid transparent;
+		border-bottom-color: $tintDarkerStronger;
+		border-right-color: $tintDarkerStronger;
+		background-color: $backgroundLight;
+		border-radius: $widgetCornerRadius;
+	}
+
+	QWidget[gafferClass="GafferUI.BreadCrumbsWidget"] QLineEdit {
+		border: 0;
+		border-radius: 0;
+		background-color: transparent;
+	}
+
+	QWidget[gafferClass="GafferUI.BreadCrumbsWidget"] QPushButton {
+		margin: 1px;
+		padding-top: 1px;
+		padding-bottom: 1px;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+	QWidget[gafferClass="GafferUI.BreadCrumbsWidget"] QPushButton[hasIcon="false"]:hover {
+		background-color : $brightColorTransparent;
+		border-radius: 4px;
 	}
 
 	"""
